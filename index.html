@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>英语点读 - 常用词汇</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#0f0f13;color:#e8e8ed;min-height:100vh;padding-bottom:80px}
+
+/* header */
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 16px 16px;position:sticky;top:0;z-index:10}
+.header h1{font-size:20px;font-weight:600;color:#fff;margin-bottom:12px;text-align:center}
+.header h1 span{color:#61dafb}
+.search-wrap{position:relative;max-width:500px;margin:0 auto}
+.search-wrap input{width:100%;padding:12px 16px 12px 40px;border-radius:12px;border:1px solid #2a2a40;background:#1a1a2e;color:#e8e8ed;font-size:15px;outline:none;transition:border .2s}
+.search-wrap input:focus{border-color:#61dafb}
+.search-wrap .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666;font-size:16px}
+
+/* category tabs */
+.tabs{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;background:#0f0f13;position:sticky;top:60px;z-index:9}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:8px 16px;border-radius:20px;background:#1a1a2e;color:#888;font-size:13px;border:1px solid #2a2a40;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tab.active{background:#61dafb22;color:#61dafb;border-color:#61dafb}
+
+/* word list */
+.list{padding:8px 16px;max-width:600px;margin:0 auto}
+.word{display:flex;align-items:center;padding:14px 16px;margin-bottom:8px;border-radius:12px;background:#1a1a2e;border:1px solid #2a2a40;cursor:pointer;transition:all .15s}
+.word:active{transform:scale(0.98);background:#222240}
+.word .en{flex:1;font-size:16px;font-weight:500;color:#fff}
+.word .zh{font-size:13px;color:#888;margin-right:12px;text-align:right;max-width:45%}
+.word .play{width:36px;height:36px;border-radius:50%;background:#61dafb22;border:1px solid #61dafb44;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.word .play svg{width:16px;height:16px;fill:#61dafb}
+.word .play.playing{background:#61dafb;animation:pulse .4s}
+.word .play.playing svg{fill:#1a1a2e}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+/* count badge */
+.count{text-align:center;padding:12px;color:#666;font-size:12px}
+
+/* empty */
+.empty{text-align:center;padding:40px;color:#555;font-size:14px}
+
+/* audio unlock overlay */
+#unlock-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#0f0f13;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;transition:opacity .5s}
+#unlock-overlay.hidden{opacity:0;pointer-events:none}
+#unlock-overlay .icon{font-size:48px;margin-bottom:20px}
+#unlock-overlay p{color:#888;font-size:14px;line-height:1.6;margin-bottom:20px}
+#unlock-btn{padding:14px 40px;border-radius:25px;background:#61dafb;color:#0f0f13;font-size:16px;font-weight:600;border:none;cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- unlock overlay -->
+<div id="unlock-overlay">
+  <div class="icon">🔊</div>
+  <p>点击下方按钮激活语音功能<br>即可开始学习英语词汇</p>
+  <button id="unlock-btn">开始学习</button>
+</div>
+
+<!-- header -->
+<div class="header">
+  <h1>📖 英语<span>点读</span></h1>
+  <div class="search-wrap">
+    <span class="icon">🔍</span>
+    <input id="search" type="text" placeholder="搜索中文或英文…" autocomplete="off">
+  </div>
+</div>
+
+<!-- tabs -->
+<div class="tabs" id="tabs"></div>
+
+<!-- count -->
+<div class="count" id="count"></div>
+
+<!-- list -->
+<div class="list" id="list"></div>
+
+<script>
+// ====== DATA ======
+const DATA = [
+  // 🤖 日常对话
+  {en:'Session',zh:'会话',cat:'日常'},
+  {en:'Provider',zh:'服务商',cat:'日常'},
+  {en:'Config',zh:'配置',cat:'日常'},
+  {en:'Configuration',zh:'配置',cat:'日常'},
+  {en:'Tool',zh:'工具',cat:'日常'},
+  {en:'Skill',zh:'技能',cat:'日常'},
+  {en:'Deploy',zh:'部署',cat:'日常'},
+  {en:'Debug',zh:'调试',cat:'日常'},
+  {en:'Error',zh:'错误',cat:'日常'},
+  {en:'Warning',zh:'警告',cat:'日常'},
+  {en:'Status',zh:'状态',cat:'日常'},
+  {en:'Update',zh:'更新',cat:'日常'},
+  {en:'Version',zh:'版本',cat:'日常'},
+  {en:'Install',zh:'安装',cat:'日常'},
+  {en:'Path',zh:'路径',cat:'日常'},
+  {en:'Directory',zh:'目录',cat:'日常'},
+  {en:'File',zh:'文件',cat:'日常'},
+  {en:'Command',zh:'命令',cat:'日常'},
+  {en:'Terminal',zh:'终端',cat:'日常'},
+  {en:'Log',zh:'日志',cat:'日常'},
+  {en:'Default',zh:'默认',cat:'日常'},
+  {en:'Enable',zh:'启用',cat:'日常'},
+  {en:'Disable',zh:'禁用',cat:'日常'},
+  {en:'Confirm',zh:'确认',cat:'日常'},
+  {en:'Cancel',zh:'取消',cat:'日常'},
+  {en:'Input',zh:'输入',cat:'日常'},
+  {en:'Output',zh:'输出',cat:'日常'},
+  {en:'API',zh:'接口',cat:'日常'},
+  {en:'Token',zh:'代币',cat:'日常'},
+  {en:'Response',zh:'回复',cat:'日常'},
+  {en:'Prompt',zh:'提示词',cat:'日常'},
+  {en:'Link',zh:'链接',cat:'日常'},
+  {en:'URL',zh:'网址',cat:'日常'},
+  {en:'Repo',zh:'仓库',cat:'日常'},
+  {en:'Repository',zh:'代码仓库',cat:'日常'},
+  {en:'Framework',zh:'框架',cat:'日常'},
+  {en:'Backup',zh:'备份',cat:'日常'},
+  {en:'Cache',zh:'缓存',cat:'日常'},
+  {en:'Generate',zh:'生成',cat:'日常'},
+  {en:'Download',zh:'下载',cat:'日常'},
+  {en:'Upload',zh:'上传',cat:'日常'},
+  {en:'Search',zh:'搜索',cat:'日常'},
+  {en:'Filter',zh:'筛选',cat:'日常'},
+  {en:'Git',zh:'版本管理',cat:'日常'},
+
+  // 🎮 UE 开发
+  {en:'Project',zh:'项目',cat:'UE'},
+  {en:'Build',zh:'构建',cat:'UE'},
+  {en:'Compile',zh:'编译',cat:'UE'},
+  {en:'Asset',zh:'资源',cat:'UE'},
+  {en:'Blueprint',zh:'蓝图',cat:'UE'},
+  {en:'Plugin',zh:'插件',cat:'UE'},
+  {en:'Module',zh:'模块',cat:'UE'},
+  {en:'Component',zh:'组件',cat:'UE'},
+  {en:'Actor',zh:'Actor/对象',cat:'UE'},
+  {en:'Class',zh:'类',cat:'UE'},
+  {en:'Function',zh:'函数',cat:'UE'},
+  {en:'Variable',zh:'变量',cat:'UE'},
+  {en:'Material',zh:'材质',cat:'UE'},
+  {en:'Texture',zh:'纹理',cat:'UE'},
+  {en:'Mesh',zh:'网格体',cat:'UE'},
+  {en:'Render',zh:'渲染',cat:'UE'},
+  {en:'Package',zh:'打包',cat:'UE'},
+  {en:'Export',zh:'导出',cat:'UE'},
+  {en:'Import',zh:'导入',cat:'UE'},
+  {en:'Crash',zh:'崩溃',cat:'UE'},
+  {en:'Level',zh:'关卡',cat:'UE'},
+  {en:'UI',zh:'界面',cat:'UE'},
+  {en:'C++',zh:'C++语言',cat:'UE'},
+
+  // 📝 短剧
+  {en:'Script',zh:'剧本',cat:'短剧'},
+  {en:'Scene',zh:'场景',cat:'短剧'},
+  {en:'Character',zh:'角色',cat:'短剧'},
+  {en:'Dialogue',zh:'对白',cat:'短剧'},
+  {en:'Plot',zh:'剧情',cat:'短剧'},
+  {en:'Line',zh:'台词',cat:'短剧'},
+  {en:'Draft',zh:'草稿',cat:'短剧'},
+  {en:'Outline',zh:'大纲',cat:'短剧'},
+  {en:'Synopsis',zh:'剧情概要',cat:'短剧'},
+  {en:'Revision',zh:'修订版',cat:'短剧'},
+  {en:'Episode',zh:'集',cat:'短剧'},
+  {en:'Protagonist',zh:'主角',cat:'短剧'},
+  {en:'Narrative',zh:'叙事',cat:'短剧'},
+
+  // 🏢 团队
+  {en:'Coordinator',zh:'协调员',cat:'团队'},
+  {en:'Researcher',zh:'研究员',cat:'团队'},
+  {en:'Writer',zh:'写手',cat:'团队'},
+  {en:'Builder',zh:'工程师',cat:'团队'},
+  {en:'Delegate',zh:'委派',cat:'团队'},
+  {en:'Workflow',zh:'工作流',cat:'团队'},
+  {en:'Gate',zh:'关卡/门控',cat:'团队'},
+  {en:'Confidence',zh:'置信度',cat:'团队'},
+  {en:'Rebuttal',zh:'驳回',cat:'团队'},
+  {en:'Inbox',zh:'收件箱',cat:'团队'},
+];
+
+// ====== STATE ======
+const CATS = ['全部','日常','UE','短剧','团队'];
+let curCat = '全部';
+let searchText = '';
+
+// ====== VOICE ======
+let _audioUnlocked = false;
+function unlockAudio(){
+  if(_audioUnlocked) return;
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state==='suspended') ctx.resume();
+  }catch(e){}
+  try{
+    speechSynthesis.getVoices();
+    const w = new SpeechSynthesisUtterance(' ');
+    w.volume = 0;
+    speechSynthesis.speak(w);
+  }catch(e){}
+  _audioUnlocked = true;
+}
+
+function speakText(text, btnEl){
+  if(!text) return;
+  // visual feedback
+  if(btnEl){
+    document.querySelectorAll('.play.playing').forEach(function(e){e.classList.remove('playing')});
+    btnEl.classList.add('playing');
+  }
+  // Youdao TTS (works in China)
+  var url = 'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=0';
+  try{
+    var audio = new Audio(url);
+    audio.volume = 1;
+    audio.play().catch(function(){
+      fallbackSpeak(text, btnEl);
+    });
+  }catch(e){
+    fallbackSpeak(text, btnEl);
+  }
+}
+function fallbackSpeak(text, btnEl){
+  try{
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.85;
+    setTimeout(function(){speechSynthesis.speak(u);}, 100);
+    u.onend = function(){
+      if(btnEl) setTimeout(function(){btnEl.classList.remove('playing')}, 300);
+    };
+  }catch(e){
+    if(btnEl) btnEl.classList.remove('playing');
+  }
+}
+
+// ====== RENDER ======
+function getFiltered(){
+  var list = DATA;
+  if(curCat !== '全部') list = list.filter(function(w){return w.cat === curCat;});
+  if(searchText.trim()){
+    var q = searchText.trim().toLowerCase();
+    list = list.filter(function(w){
+      return w.en.toLowerCase().indexOf(q) !== -1
+        || w.zh.indexOf(q) !== -1;
+    });
+  }
+  return list;
+}
+
+function render(){
+  var list = getFiltered();
+  var html = '';
+  if(list.length === 0){
+    html = '<div class="empty">没有找到匹配的词</div>';
+  } else {
+    list.forEach(function(w){
+      html += '<div class="word" data-en="'+w.en+'" data-zh="'+w.zh+'">'
+        + '<span class="en">'+w.en+'</span>'
+        + '<span class="zh">'+w.zh+'</span>'
+        + '<div class="play" data-en="'+w.en+'">'
+        + '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
+        + '</div></div>';
+    });
+  }
+  document.getElementById('list').innerHTML = html;
+  document.getElementById('count').textContent = '共 ' + list.length + ' 个词';
+}
+
+// ====== TABS ======
+function renderTabs(){
+  var html = '';
+  CATS.forEach(function(c){
+    var active = c === curCat ? ' active' : '';
+    html += '<div class="tab'+active+'" data-cat="'+c+'">'+c+'</div>';
+  });
+  document.getElementById('tabs').innerHTML = html;
+}
+
+// ====== EVENTS ======
+document.addEventListener('DOMContentLoaded', function(){
+  renderTabs();
+  render();
+
+  // tab clicks
+  document.getElementById('tabs').addEventListener('click', function(e){
+    var tab = e.target.closest('.tab');
+    if(!tab) return;
+    curCat = tab.getAttribute('data-cat');
+    renderTabs();
+    render();
+  });
+
+  // search
+  document.getElementById('search').addEventListener('input', function(){
+    searchText = this.value;
+    render();
+  });
+
+  // word click → speak
+  document.getElementById('list').addEventListener('click', function(e){
+    var btn = e.target.closest('.play');
+    var word = e.target.closest('.word');
+    if(btn){
+      var en = btn.getAttribute('data-en');
+      speakText(en, btn);
+    } else if(word){
+      var en = word.getAttribute('data-en');
+      var btn2 = word.querySelector('.play');
+      if(btn2) speakText(en, btn2);
+    }
+  });
+
+  // unlock
+  document.getElementById('unlock-btn').addEventListener('click', function(){
+    unlockAudio();
+    document.getElementById('unlock-overlay').classList.add('hidden');
+  });
+  document.addEventListener('touchstart', function(){
+    if(!_audioUnlocked){
+      unlockAudio();
+      document.getElementById('unlock-overlay').classList.add('hidden');
+    }
+  }, {once:true});
+});
+</script>
+</body>
+</html>
