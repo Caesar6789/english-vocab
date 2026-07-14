@@ -2,47 +2,35 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.5,user-scalable=yes">
 <title>英语点读 - 常用词汇</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#0f0f13;color:#e8e8ed;min-height:100vh;padding-bottom:80px}
-
-/* header */
-.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 16px 16px;position:sticky;top:0;z-index:10}
-.header h1{font-size:20px;font-weight:600;color:#fff;margin-bottom:12px;text-align:center}
-.header h1 span{color:#61dafb}
-.search-wrap{position:relative;max-width:500px;margin:0 auto}
-.search-wrap input{width:100%;padding:12px 16px 12px 40px;border-radius:12px;border:1px solid #2a2a40;background:#1a1a2e;color:#e8e8ed;font-size:15px;outline:none;transition:border .2s}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px 16px 10px;position:sticky;top:0;z-index:10}
+.header h1{font-size:17px;font-weight:600;color:#fff;text-align:center}
+.header h1 span{color:#61dafb;font-weight:700}
+.search-wrap{position:relative;max-width:500px;margin:8px auto 0}
+.search-wrap input{width:100%;padding:10px 14px 10px 38px;border-radius:10px;border:1px solid #2a2a40;background:#1a1a2e;color:#e8e8ed;font-size:14px;outline:none}
 .search-wrap input:focus{border-color:#61dafb}
-.search-wrap .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666;font-size:16px}
-
-/* category tabs */
-.tabs{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;background:#0f0f13;position:sticky;top:60px;z-index:9}
+.search-wrap .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666;font-size:15px}
+.tabs{display:flex;gap:4px;padding:6px 12px;overflow-x:auto;scrollbar-width:none;background:#0f0f13;position:sticky;top:96px;z-index:9;border-bottom:1px solid #1a1a2e}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:8px 16px;border-radius:20px;background:#1a1a2e;color:#888;font-size:13px;border:1px solid #2a2a40;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tab{flex-shrink:0;padding:6px 12px;border-radius:14px;background:#1a1a2e;color:#888;font-size:12px;border:1px solid #2a2a40;cursor:pointer;transition:all .2s}
 .tab.active{background:#61dafb22;color:#61dafb;border-color:#61dafb}
-
-/* word list */
-.list{padding:8px 16px;max-width:600px;margin:0 auto}
-.word{display:flex;align-items:center;padding:14px 16px;margin-bottom:8px;border-radius:12px;background:#1a1a2e;border:1px solid #2a2a40;cursor:pointer;transition:all .15s}
-.word:active{transform:scale(0.98);background:#222240}
-.word .en{flex:1;font-size:16px;font-weight:500;color:#fff}
-.word .zh{font-size:13px;color:#888;margin-right:12px;text-align:right;max-width:45%}
-.word .play{width:36px;height:36px;border-radius:50%;background:#61dafb22;border:1px solid #61dafb44;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
-.word .play svg{width:16px;height:16px;fill:#61dafb}
-.word .play.playing{background:#61dafb;animation:pulse .4s}
+.count-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px 4px;font-size:12px;color:#666;background:#0f0f13}
+.list{padding:6px 12px 100px;max-width:660px;margin:0 auto}
+.word{display:flex;align-items:center;padding:11px 12px;margin-bottom:5px;border-radius:10px;background:#1a1a2e;border:1px solid #2a2a40;cursor:pointer;transition:all .1s}
+.word:active{transform:scale(0.97);background:#222240}
+.word .en{flex:1;font-size:15px;font-weight:500;color:#fff}
+.word .zh{font-size:12px;color:#888;margin-right:10px;text-align:right;max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.word .play{width:30px;height:30px;border-radius:50%;background:#61dafb22;border:1px solid #61dafb44;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.word .play svg{width:13px;height:13px;fill:#61dafb}
+.word .play.playing{background:#61dafb;animation:pulse .35s}
 .word .play.playing svg{fill:#1a1a2e}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-
-/* count badge */
-.count{text-align:center;padding:12px;color:#666;font-size:12px}
-
-/* empty */
-.empty{text-align:center;padding:40px;color:#555;font-size:14px}
-
-/* audio unlock overlay */
-#unlock-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#0f0f13;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;transition:opacity .5s}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+.empty{text-align:center;padding:60px 20px;color:#555;font-size:14px}
+#unlock-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#0f0f13;z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;transition:opacity .5s}
 #unlock-overlay.hidden{opacity:0;pointer-events:none}
 #unlock-overlay .icon{font-size:48px;margin-bottom:20px}
 #unlock-overlay p{color:#888;font-size:14px;line-height:1.6;margin-bottom:20px}
@@ -51,278 +39,420 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 </head>
 <body>
 
-<!-- unlock overlay -->
 <div id="unlock-overlay">
   <div class="icon">🔊</div>
-  <p>点击下方按钮激活语音功能<br>即可开始学习英语词汇</p>
-  <button id="unlock-btn">开始学习</button>
+  <p>点击按钮激活语音功能<br>即可开始英语词汇学习</p>
+  <button id="unlock-btn">🎧 开始学习</button>
 </div>
 
-<!-- header -->
 <div class="header">
-  <h1>📖 英语<span>点读</span></h1>
+  <h1>📖 常用英语<span>点读</span></h1>
   <div class="search-wrap">
     <span class="icon">🔍</span>
-    <input id="search" type="text" placeholder="搜索中文或英文…" autocomplete="off">
+    <input id="search" type="text" placeholder="搜索英文或中文…" autocomplete="off">
   </div>
 </div>
 
-<!-- tabs -->
 <div class="tabs" id="tabs"></div>
 
-<!-- count -->
-<div class="count" id="count"></div>
+<div class="count-bar">
+  <span>共 <span id="total-num">0</span> 词</span>
+  <span id="cat-info">全部</span>
+</div>
 
-<!-- list -->
 <div class="list" id="list"></div>
 
 <script>
-// ====== DATA ======
-const DATA = [
-  // 🤖 日常对话
-  {en:'Session',zh:'会话',cat:'日常'},
-  {en:'Provider',zh:'服务商',cat:'日常'},
-  {en:'Config',zh:'配置',cat:'日常'},
-  {en:'Configuration',zh:'配置',cat:'日常'},
-  {en:'Tool',zh:'工具',cat:'日常'},
-  {en:'Skill',zh:'技能',cat:'日常'},
-  {en:'Deploy',zh:'部署',cat:'日常'},
-  {en:'Debug',zh:'调试',cat:'日常'},
-  {en:'Error',zh:'错误',cat:'日常'},
-  {en:'Warning',zh:'警告',cat:'日常'},
-  {en:'Status',zh:'状态',cat:'日常'},
-  {en:'Update',zh:'更新',cat:'日常'},
-  {en:'Version',zh:'版本',cat:'日常'},
-  {en:'Install',zh:'安装',cat:'日常'},
-  {en:'Path',zh:'路径',cat:'日常'},
-  {en:'Directory',zh:'目录',cat:'日常'},
-  {en:'File',zh:'文件',cat:'日常'},
-  {en:'Command',zh:'命令',cat:'日常'},
-  {en:'Terminal',zh:'终端',cat:'日常'},
-  {en:'Log',zh:'日志',cat:'日常'},
-  {en:'Default',zh:'默认',cat:'日常'},
-  {en:'Enable',zh:'启用',cat:'日常'},
-  {en:'Disable',zh:'禁用',cat:'日常'},
-  {en:'Confirm',zh:'确认',cat:'日常'},
-  {en:'Cancel',zh:'取消',cat:'日常'},
-  {en:'Input',zh:'输入',cat:'日常'},
-  {en:'Output',zh:'输出',cat:'日常'},
-  {en:'API',zh:'接口',cat:'日常'},
-  {en:'Token',zh:'代币',cat:'日常'},
-  {en:'Response',zh:'回复',cat:'日常'},
-  {en:'Prompt',zh:'提示词',cat:'日常'},
-  {en:'Link',zh:'链接',cat:'日常'},
-  {en:'URL',zh:'网址',cat:'日常'},
-  {en:'Repo',zh:'仓库',cat:'日常'},
-  {en:'Repository',zh:'代码仓库',cat:'日常'},
-  {en:'Framework',zh:'框架',cat:'日常'},
-  {en:'Backup',zh:'备份',cat:'日常'},
-  {en:'Cache',zh:'缓存',cat:'日常'},
-  {en:'Generate',zh:'生成',cat:'日常'},
-  {en:'Download',zh:'下载',cat:'日常'},
-  {en:'Upload',zh:'上传',cat:'日常'},
-  {en:'Search',zh:'搜索',cat:'日常'},
-  {en:'Filter',zh:'筛选',cat:'日常'},
-  {en:'Git',zh:'版本管理',cat:'日常'},
-
-  // 🎮 UE 开发
-  {en:'Project',zh:'项目',cat:'UE'},
-  {en:'Build',zh:'构建',cat:'UE'},
-  {en:'Compile',zh:'编译',cat:'UE'},
-  {en:'Asset',zh:'资源',cat:'UE'},
-  {en:'Blueprint',zh:'蓝图',cat:'UE'},
-  {en:'Plugin',zh:'插件',cat:'UE'},
-  {en:'Module',zh:'模块',cat:'UE'},
-  {en:'Component',zh:'组件',cat:'UE'},
-  {en:'Actor',zh:'Actor/对象',cat:'UE'},
-  {en:'Class',zh:'类',cat:'UE'},
-  {en:'Function',zh:'函数',cat:'UE'},
-  {en:'Variable',zh:'变量',cat:'UE'},
-  {en:'Material',zh:'材质',cat:'UE'},
-  {en:'Texture',zh:'纹理',cat:'UE'},
-  {en:'Mesh',zh:'网格体',cat:'UE'},
-  {en:'Render',zh:'渲染',cat:'UE'},
-  {en:'Package',zh:'打包',cat:'UE'},
-  {en:'Export',zh:'导出',cat:'UE'},
-  {en:'Import',zh:'导入',cat:'UE'},
-  {en:'Crash',zh:'崩溃',cat:'UE'},
-  {en:'Level',zh:'关卡',cat:'UE'},
-  {en:'UI',zh:'界面',cat:'UE'},
-  {en:'C++',zh:'C++语言',cat:'UE'},
-
-  // 📝 短剧
-  {en:'Script',zh:'剧本',cat:'短剧'},
-  {en:'Scene',zh:'场景',cat:'短剧'},
-  {en:'Character',zh:'角色',cat:'短剧'},
-  {en:'Dialogue',zh:'对白',cat:'短剧'},
-  {en:'Plot',zh:'剧情',cat:'短剧'},
-  {en:'Line',zh:'台词',cat:'短剧'},
-  {en:'Draft',zh:'草稿',cat:'短剧'},
-  {en:'Outline',zh:'大纲',cat:'短剧'},
-  {en:'Synopsis',zh:'剧情概要',cat:'短剧'},
-  {en:'Revision',zh:'修订版',cat:'短剧'},
-  {en:'Episode',zh:'集',cat:'短剧'},
-  {en:'Protagonist',zh:'主角',cat:'短剧'},
-  {en:'Narrative',zh:'叙事',cat:'短剧'},
-
-  // 🏢 团队
-  {en:'Coordinator',zh:'协调员',cat:'团队'},
-  {en:'Researcher',zh:'研究员',cat:'团队'},
-  {en:'Writer',zh:'写手',cat:'团队'},
-  {en:'Builder',zh:'工程师',cat:'团队'},
-  {en:'Delegate',zh:'委派',cat:'团队'},
-  {en:'Workflow',zh:'工作流',cat:'团队'},
-  {en:'Gate',zh:'关卡/门控',cat:'团队'},
-  {en:'Confidence',zh:'置信度',cat:'团队'},
-  {en:'Rebuttal',zh:'驳回',cat:'团队'},
-  {en:'Inbox',zh:'收件箱',cat:'团队'},
+var WORDS = [
+  ['Session','会话','日常'],
+  ['Provider','服务商','日常'],
+  ['Config','配置','日常'],
+  ['Configuration','配置','日常'],
+  ['Tool','工具','日常'],
+  ['Skill','技能','日常'],
+  ['Deploy','部署','日常'],
+  ['Debug','调试','日常'],
+  ['Error','错误','日常'],
+  ['Warning','警告','日常'],
+  ['Status','状态','日常'],
+  ['Update','更新','日常'],
+  ['Version','版本','日常'],
+  ['Install','安装','日常'],
+  ['Path','路径','日常'],
+  ['Directory','目录','日常'],
+  ['File','文件','日常'],
+  ['Command','命令','日常'],
+  ['Terminal','终端','日常'],
+  ['Log','日志','日常'],
+  ['Default','默认','日常'],
+  ['Enable','启用','日常'],
+  ['Disable','禁用','日常'],
+  ['Confirm','确认','日常'],
+  ['Cancel','取消','日常'],
+  ['Input','输入','日常'],
+  ['Output','输出','日常'],
+  ['API','接口','日常'],
+  ['Token','代币','日常'],
+  ['Response','回复','日常'],
+  ['Prompt','提示词','日常'],
+  ['Link','链接','日常'],
+  ['URL','网址','日常'],
+  ['Repo','仓库','日常'],
+  ['Repository','代码仓库','日常'],
+  ['Framework','框架','日常'],
+  ['Backup','备份','日常'],
+  ['Cache','缓存','日常'],
+  ['Generate','生成','日常'],
+  ['Download','下载','日常'],
+  ['Upload','上传','日常'],
+  ['Search','搜索','日常'],
+  ['Filter','筛选','日常'],
+  ['Git','版本管理','日常'],
+  ['Project','项目','UE'],
+  ['Build','构建','UE'],
+  ['Compile','编译','UE'],
+  ['Asset','资源','UE'],
+  ['Blueprint','蓝图','UE'],
+  ['Plugin','插件','UE'],
+  ['Module','模块','UE'],
+  ['Component','组件','UE'],
+  ['Actor','Actor/对象','UE'],
+  ['Class','类','UE'],
+  ['Function','函数','UE'],
+  ['Variable','变量','UE'],
+  ['Material','材质','UE'],
+  ['Texture','纹理','UE'],
+  ['Mesh','网格体','UE'],
+  ['Render','渲染','UE'],
+  ['Package','打包','UE'],
+  ['Export','导出','UE'],
+  ['Import','导入','UE'],
+  ['Crash','崩溃','UE'],
+  ['Level','关卡','UE'],
+  ['UI','界面','UE'],
+  ['C++','C++语言','UE'],
+  ['Script','剧本','短剧'],
+  ['Scene','场景','短剧'],
+  ['Character','角色','短剧'],
+  ['Dialogue','对白','短剧'],
+  ['Plot','剧情','短剧'],
+  ['Line','台词','短剧'],
+  ['Draft','草稿','短剧'],
+  ['Outline','大纲','短剧'],
+  ['Synopsis','剧情概要','短剧'],
+  ['Revision','修订版','短剧'],
+  ['Episode','集','短剧'],
+  ['Protagonist','主角','短剧'],
+  ['Narrative','叙事','短剧'],
+  ['Coordinator','协调员','团队'],
+  ['Researcher','研究员','团队'],
+  ['Writer','写手','团队'],
+  ['Builder','工程师','团队'],
+  ['Delegate','委派','团队'],
+  ['Workflow','工作流','团队'],
+  ['Gate','关卡/门控','团队'],
+  ['Confidence','置信度','团队'],
+  ['Rebuttal','驳回','团队'],
+  ['Inbox','收件箱','团队'],
+  ['Workflow','工作流','ComfyUI'],
+  ['Node','节点','ComfyUI'],
+  ['Model','模型','ComfyUI'],
+  ['Checkpoint','检查点','ComfyUI'],
+  ['Latent','潜空间','ComfyUI'],
+  ['Sampler','采样器','ComfyUI'],
+  ['Scheduler','调度器','ComfyUI'],
+  ['Seed','随机种子','ComfyUI'],
+  ['Steps','步数','ComfyUI'],
+  ['CFG Scale','提示词相关性','ComfyUI'],
+  ['VAE','变分自编码器','ComfyUI'],
+  ['LoRA','低秩适配模型','ComfyUI'],
+  ['ControlNet','控制网络','ComfyUI'],
+  ['Upscale','放大','ComfyUI'],
+  ['Denoise','去噪强度','ComfyUI'],
+  ['Batch Size','批量大小','ComfyUI'],
+  ['Queue','队列','ComfyUI'],
+  ['CLIP','文本编码器','ComfyUI'],
+  ['Positive Prompt','正向提示词','ComfyUI'],
+  ['Negative Prompt','负向提示词','ComfyUI'],
+  ['Resolution','分辨率','ComfyUI'],
+  ['Aspect Ratio','宽高比','ComfyUI'],
+  ['Mask','遮罩','ComfyUI'],
+  ['Inpaint','局部重绘','ComfyUI'],
+  ['Img2Img','图生图','ComfyUI'],
+  ['Txt2Img','文生图','ComfyUI'],
+  ['Loader','加载器','ComfyUI'],
+  ['Preview','预览','ComfyUI'],
+  ['Save','保存','ComfyUI'],
+  ['Manager','管理器','ComfyUI'],
+  ['VRAM','显存','ComfyUI'],
 ];
 
-// ====== STATE ======
-const CATS = ['全部','日常','UE','短剧','团队'];
-let curCat = '全部';
-let searchText = '';
+var CAT_ICONS = {"日常": "🤖", "UE": "🎮", "短剧": "📝", "团队": "🏢", "ComfyUI": "🎨"};
 
-// ====== VOICE ======
-let _audioUnlocked = false;
-function unlockAudio(){
-  if(_audioUnlocked) return;
-  try{
-    const ctx = new (window.AudioContext||window.webkitAudioContext)();
-    if(ctx.state==='suspended') ctx.resume();
-  }catch(e){}
-  try{
+var _audioUnlocked = false;
+var currentCat = '';
+var _speaking = false;
+var _currentAudio = null;
+
+function unlockAudio() {
+  if (_audioUnlocked) return;
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+  } catch(e) {}
+  try {
     speechSynthesis.getVoices();
-    const w = new SpeechSynthesisUtterance(' ');
+    var w = new SpeechSynthesisUtterance(' ');
     w.volume = 0;
     speechSynthesis.speak(w);
-  }catch(e){}
+  } catch(e) {}
   _audioUnlocked = true;
+  document.getElementById('unlock-overlay').classList.add('hidden');
 }
 
-function speakText(text, btnEl){
-  if(!text) return;
-  // visual feedback
-  if(btnEl){
-    document.querySelectorAll('.play.playing').forEach(function(e){e.classList.remove('playing')});
+function stopAudio() {
+  if (_currentAudio) {
+    try { _currentAudio.pause(); _currentAudio.currentTime = 0; } catch(e) {}
+    _currentAudio = null;
+  }
+  try { speechSynthesis.cancel(); } catch(e) {}
+}
+
+function speakWord(word, btnEl) {
+  if (!word || _speaking) return;
+  _speaking = true;
+  stopAudio();
+
+  if (btnEl) {
+    var playing = document.querySelectorAll('.play.playing');
+    for (var i = 0; i < playing.length; i++) {
+      playing[i].classList.remove('playing');
+    }
     btnEl.classList.add('playing');
   }
-  // Youdao TTS (works in China)
-  var url = 'https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type=0';
-  try{
-    var audio = new Audio(url);
-    audio.volume = 1;
-    audio.play().catch(function(){
-      fallbackSpeak(text, btnEl);
-    });
-  }catch(e){
-    fallbackSpeak(text, btnEl);
-  }
+
+  tryBaidu(word, btnEl);
 }
-function fallbackSpeak(text, btnEl){
-  try{
-    speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US';
-    u.rate = 0.85;
-    setTimeout(function(){speechSynthesis.speak(u);}, 100);
-    u.onend = function(){
-      if(btnEl) setTimeout(function(){btnEl.classList.remove('playing')}, 300);
+
+function tryBaidu(word, btnEl) {
+  var url = 'https://fanyi.baidu.com/gettts?lan=en&text=' + encodeURIComponent(word) + '&spd=3&source=web';
+  try {
+    var a = new Audio(url);
+    _currentAudio = a;
+    a.volume = 1;
+    var p = a.play();
+
+    var fallbackTimer = setTimeout(function() {
+      if (_currentAudio === a) {
+        tryBaiduFallback(word, btnEl);
+      }
+    }, 2000);
+
+    a.onended = function() {
+      clearTimeout(fallbackTimer);
+      _speaking = false;
+      _currentAudio = null;
+      if (btnEl) btnEl.classList.remove('playing');
     };
-  }catch(e){
-    if(btnEl) btnEl.classList.remove('playing');
+
+    a.onerror = function() {
+      clearTimeout(fallbackTimer);
+      if (_currentAudio === a) {
+        tryYoudao(word, btnEl);
+      }
+    };
+
+    if (p && p.catch) {
+      p.catch(function() {
+        clearTimeout(fallbackTimer);
+        if (_currentAudio === a) {
+          tryYoudao(word, btnEl);
+        }
+      });
+    }
+  } catch(e) {
+    tryYoudao(word, btnEl);
   }
 }
 
-// ====== RENDER ======
-function getFiltered(){
-  var list = DATA;
-  if(curCat !== '全部') list = list.filter(function(w){return w.cat === curCat;});
-  if(searchText.trim()){
-    var q = searchText.trim().toLowerCase();
-    list = list.filter(function(w){
-      return w.en.toLowerCase().indexOf(q) !== -1
-        || w.zh.indexOf(q) !== -1;
-    });
+function tryBaiduFallback(word, btnEl) {
+  if (_currentAudio) {
+    try { _currentAudio.pause(); _currentAudio.currentTime = 0; } catch(e) {}
   }
-  return list;
+  tryYoudao(word, btnEl);
 }
 
-function render(){
-  var list = getFiltered();
-  var html = '';
-  if(list.length === 0){
-    html = '<div class="empty">没有找到匹配的词</div>';
+function tryYoudao(word, btnEl) {
+  var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(word) + '&type=1';
+  try {
+    var a = new Audio(url);
+    _currentAudio = a;
+    a.volume = 1;
+    var p = a.play();
+
+    var fallbackTimer = setTimeout(function() {
+      if (_currentAudio === a) {
+        tryBrowser(word, btnEl);
+      }
+    }, 2000);
+
+    a.onended = function() {
+      clearTimeout(fallbackTimer);
+      _speaking = false;
+      _currentAudio = null;
+      if (btnEl) btnEl.classList.remove('playing');
+    };
+
+    a.onerror = function() {
+      clearTimeout(fallbackTimer);
+      if (_currentAudio === a) {
+        tryBrowser(word, btnEl);
+      }
+    };
+
+    if (p && p.catch) {
+      p.catch(function() {
+        clearTimeout(fallbackTimer);
+        if (_currentAudio === a) {
+          tryBrowser(word, btnEl);
+        }
+      });
+    }
+  } catch(e) {
+    tryBrowser(word, btnEl);
+  }
+}
+
+function tryBrowser(word, btnEl) {
+  try {
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(word);
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    u.onend = function() {
+      _speaking = false;
+      if (btnEl) btnEl.classList.remove('playing');
+    };
+    u.onerror = function() {
+      _speaking = false;
+      if (btnEl) btnEl.classList.remove('playing');
+    };
+    speechSynthesis.speak(u);
+  } catch(e) {
+    _speaking = false;
+    if (btnEl) btnEl.classList.remove('playing');
+  }
+}
+
+function render(cat, searchTerm) {
+  currentCat = cat;
+  var list = document.getElementById('list');
+  var info = document.getElementById('cat-info');
+  var total = document.getElementById('total-num');
+
+  var filtered;
+  if (searchTerm) {
+    var s = searchTerm.toLowerCase();
+    filtered = [];
+    for (var i = 0; i < WORDS.length; i++) {
+      var d = WORDS[i];
+      if (d[0].toLowerCase().indexOf(s) !== -1 || d[1].indexOf(s) !== -1) {
+        filtered.push(d);
+      }
+    }
+    total.textContent = filtered.length;
+    info.textContent = '🔍 "' + searchTerm + '"';
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="empty">😕 未找到匹配单词</div>';
+      return;
+    }
+  } else if (cat) {
+    filtered = [];
+    for (var i = 0; i < WORDS.length; i++) {
+      if (WORDS[i][2] === cat) {
+        filtered.push(WORDS[i]);
+      }
+    }
+    total.textContent = filtered.length;
+    info.textContent = CAT_ICONS[cat] + ' ' + cat;
   } else {
-    list.forEach(function(w){
-      html += '<div class="word" data-en="'+w.en+'" data-zh="'+w.zh+'">'
-        + '<span class="en">'+w.en+'</span>'
-        + '<span class="zh">'+w.zh+'</span>'
-        + '<div class="play" data-en="'+w.en+'">'
-        + '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
-        + '</div></div>';
-    });
+    filtered = WORDS;
+    total.textContent = WORDS.length;
+    info.textContent = '全部';
   }
-  document.getElementById('list').innerHTML = html;
-  document.getElementById('count').textContent = '共 ' + list.length + ' 个词';
-}
 
-// ====== TABS ======
-function renderTabs(){
   var html = '';
-  CATS.forEach(function(c){
-    var active = c === curCat ? ' active' : '';
-    html += '<div class="tab'+active+'" data-cat="'+c+'">'+c+'</div>';
-  });
-  document.getElementById('tabs').innerHTML = html;
+  for (var i = 0; i < filtered.length; i++) {
+    var d = filtered[i];
+    html += '<div class="word" data-word="' + d[0].replace(/'/g, "\\'") + '">';
+    html += '<div class="en">' + d[0] + '</div>';
+    html += '<div class="zh">' + d[1] + '</div>';
+    html += '<div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>';
+  }
+  list.innerHTML = html;
+
+  if (!searchTerm) {
+    var tabs = document.querySelectorAll('.tab');
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].classList.toggle('active', tabs[i].dataset.cat === cat);
+    }
+  }
 }
 
-// ====== EVENTS ======
-document.addEventListener('DOMContentLoaded', function(){
-  renderTabs();
-  render();
+function init() {
+  // Build category tabs
+  var catSet = {};
+  for (var i = 0; i < WORDS.length; i++) {
+    catSet[WORDS[i][2]] = true;
+  }
+  var catList = Object.keys(catSet);
 
-  // tab clicks
-  document.getElementById('tabs').addEventListener('click', function(e){
+  var tabsHtml = '<div class="tab active" data-cat="">全部</div>';
+  for (var i = 0; i < catList.length; i++) {
+    var c = catList[i];
+    var icon = CAT_ICONS[c] || '';
+    tabsHtml += '<div class="tab" data-cat="' + c + '">' + icon + ' ' + c + '</div>';
+  }
+  document.getElementById('tabs').innerHTML = tabsHtml;
+  document.getElementById('total-num').textContent = WORDS.length;
+
+  render('', '');
+
+  // Tab click
+  document.getElementById('tabs').addEventListener('click', function(e) {
     var tab = e.target.closest('.tab');
-    if(!tab) return;
-    curCat = tab.getAttribute('data-cat');
-    renderTabs();
-    render();
+    if (!tab) return;
+    document.getElementById('search').value = '';
+    render(tab.dataset.cat, '');
   });
 
-  // search
-  document.getElementById('search').addEventListener('input', function(){
-    searchText = this.value;
-    render();
+  // Search
+  document.getElementById('search').addEventListener('input', function() {
+    render(currentCat, this.value.trim());
   });
 
-  // word click → speak
-  document.getElementById('list').addEventListener('click', function(e){
-    var btn = e.target.closest('.play');
-    var word = e.target.closest('.word');
-    if(btn){
-      var en = btn.getAttribute('data-en');
-      speakText(en, btn);
-    } else if(word){
-      var en = word.getAttribute('data-en');
-      var btn2 = word.querySelector('.play');
-      if(btn2) speakText(en, btn2);
-    }
+  // Word click
+  document.getElementById('list').addEventListener('click', function(e) {
+    var wordEl = e.target.closest('.word');
+    if (!wordEl) return;
+    speakWord(wordEl.dataset.word, wordEl.querySelector('.play'));
   });
 
-  // unlock
-  document.getElementById('unlock-btn').addEventListener('click', function(){
-    unlockAudio();
-    document.getElementById('unlock-overlay').classList.add('hidden');
-  });
-  document.addEventListener('touchstart', function(){
-    if(!_audioUnlocked){
-      unlockAudio();
-      document.getElementById('unlock-overlay').classList.add('hidden');
-    }
+  // Unlock
+  var unlockBtn = document.getElementById('unlock-btn');
+  if (unlockBtn) {
+    unlockBtn.addEventListener('click', unlockAudio);
+  }
+  document.addEventListener('touchstart', function() {
+    if (!_audioUnlocked) unlockAudio();
   }, {once:true});
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 </script>
 </body>
 </html>
